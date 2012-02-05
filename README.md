@@ -40,7 +40,6 @@ Imagine you have this kind of content in your `string_data` with this content:
 			17
 		</div> <!-- end section-comments -->
 	</div> <!--end section-item-->
-
 We need to parse these items:
 
 * title
