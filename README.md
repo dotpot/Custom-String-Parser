@@ -48,7 +48,6 @@ We need to parse these items:
 * comments count
 
 Code to parse this looks like this:
-
 	parser = CustomStringParserCore(string_data)
 	itemParser = ParsingNode('item', '<div class="section-item">', '</div> <!--end section-item-->')
 	
