@@ -97,8 +97,9 @@ class CustomStringParserCore():
 
     def parse(self):
         """ iterates through all the parsers and calls parse method (which aggregates results)"""
-        for parser in self.parsers:
-            parser.parse(self.content)
+        if self.parsers is not None:
+            for parser in self.parsers:
+                parser.parse(self.content)
 
 # For temporary purposes.
 def PrintResults(resultsList, sep=''):
@@ -110,3 +111,4 @@ def PrintResults(resultsList, sep=''):
             sr = result.subResults
             if sr is not None and len(sr) > 0:
                 PrintResults(sr, '\t')
+
