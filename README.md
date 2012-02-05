@@ -15,7 +15,7 @@ You can use this component if you need to parse any information from string valu
 **Note: for html based parsing you should consider using [xpath](http://www.w3schools.com/xpath/)
 **
 
-Imagine you have this kind of content in your `string_data`:
+Imagine you have this kind of content in your `string_data` with this content:
 	<div class="section-item">
 		<div class="section-title">
 			title1
