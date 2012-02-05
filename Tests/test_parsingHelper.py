@@ -1,7 +1,7 @@
 from unittest import TestCase
 from CustomStringParser import ParsingHelper
 
-__author__ = 'lus'
+__author__ = 'Lukas Salkauskas'
 
 class TestParsingHelper(TestCase):
     def test_ExtractTagFromString(self):

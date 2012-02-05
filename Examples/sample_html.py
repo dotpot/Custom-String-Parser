@@ -1,5 +1,7 @@
 from CustomStringParser import PrintResults, ParsingNode, CustomStringParserCore
 
+__author__ = 'Lukas Salkauskas'
+
 def test():
     string_data = """
     	<..>

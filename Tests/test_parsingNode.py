@@ -1,7 +1,7 @@
 from unittest import TestCase
 from CustomStringParser import ParsingNode
 
-__author__ = 'lus'
+__author__ = 'Lukas Salkauskas'
 
 class TestParsingNode(TestCase):
     def setUp(self):

@@ -1,7 +1,7 @@
 from unittest import TestCase
 from CustomStringParser import ParsingResult
 
-__author__ = 'lus'
+__author__ = 'Lukas Salkauskas'
 
 class TestParsingResult(TestCase):
     def setUp(self):
