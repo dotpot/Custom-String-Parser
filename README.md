@@ -16,7 +16,7 @@ You can use this component if you need to parse any information from string valu
 **
 
 Imagine you have this kind of content in your `string_data`:
-	<..>
+	`<..>
 	<div class="section-item">
 		<div class="section-title">
 			title1
@@ -40,7 +40,7 @@ Imagine you have this kind of content in your `string_data`:
 		<div class="section-comments">
 			17
 		</div> <!-- end section-comments -->
-	</div> <!--end section-item-->
+	</div> <!--end section-item-->`
 
 We need to parse these items:
 
