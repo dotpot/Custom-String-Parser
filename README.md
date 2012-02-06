@@ -1,6 +1,6 @@
 <h1>Custom String Parser</h1>
 
-<p>You can use this component if you need to parse any information from string value.</p>
+<p>You can use this component if you need to parse any information from any string value which has some <a href="http://en.wikipedia.org/wiki/Syntax_(logic)">syntax logics.</a></p>
 
 <blockquote><p>The easiest way to parse data from string in python.</p></blockquote>
 
@@ -133,4 +133,13 @@ parser.parse()
 <pre><code>17
 </code></pre>
 
-<h3>This is very generic, so you can parse practically any structure.</h3>
+<h4>This is very generic, so you can parse practically any structure.</h4>
+
+<h3>Unit tests</h3>
+This library suppose to be fully unit tested. So if you want to participate keep that in mind.
+
+<h3>Feature ideas ( not yet implemented )</h3>
+* Regex based parsers possibility.
+* Grouped regex based parsers possibility.
+* XPath based parsers possibility.
+* Filtering out results by parser name.
