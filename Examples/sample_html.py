@@ -39,7 +39,7 @@ def test():
     itemParser.addParser(titleParser)
     itemParser.addParser(commentsParser)
 
-    parser.addParsingNode(itemParser)
+    parser.addParser(itemParser)
 
     # call the parse
     parser.parse()

@@ -88,12 +88,13 @@ class CustomStringParserCore():
         self.content = content
         self.parsers = None
 
-    def addParsingNode(self, parsingNode):
+    def addParser(self, parser):
         """ adds parsing node to existing parsing nodes list """
         if self.parsers is None:
             self.parsers = list()
 
-        self.parsers.append(parsingNode)
+        # ToDo: Check if parser with same name exists or not ( maybe )
+        self.parsers.append(parser)
 
     def parse(self):
         """ iterates through all the parsers and calls parse method (which aggregates results)"""

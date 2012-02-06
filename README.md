@@ -63,7 +63,7 @@ itemParser.addParser(titleParser)
 itemParser.addParser(commentsParser)
 
 # add main parser to the parsing core
-parser.addParsingNode(itemParser)
+parser.addParser(itemParser)
 
 # call the parse
 parser.parse()

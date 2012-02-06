@@ -11,12 +11,12 @@ class TestCustomStringParserCore(TestCase):
         self.parser = None
 
     def test_AddParsingNode(self):
-        self.parser.addParsingNode(None)
+        self.parser.addParser(None)
         self.assertEquals(1, len(self.parser.parsers))
 
     def test_Parse(self):
         testParsingNode = ParsingNode('testNode', 'hello', 'coder')
-        self.parser.addParsingNode(testParsingNode)
+        self.parser.addParser(testParsingNode)
         self.parser.parse()
 
         if testParsingNode.results is not None:
