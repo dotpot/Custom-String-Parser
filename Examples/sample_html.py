@@ -44,7 +44,19 @@ def test():
     # call the parse
     parser.parse()
 
-    PrintResults(itemParser.results)
+    # Uncomment if you just want to print whole tree of the results ( strip value - default = True )
+    #PrintResults(itemParser.results)
+
+    if itemParser.results is not None:
+        for res in itemParser.results:
+            subTitle = res.getSubResultByName('title')
+            if subTitle is not None:
+                for st in subTitle:
+                    print st.value.strip()
+            subComments = res.getSubResultByName('comments')
+            if subComments is not None:
+                for sc in subComments:
+                    print sc.value.strip()
 
 if __name__ == '__main__':
     test()

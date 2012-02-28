@@ -41,3 +41,13 @@ class TestParsingResult(TestCase):
 
         sr = self.parsingResult.subResults
         self.assertIsNone(sr, 'should be None')
+
+    def test_GetSubResultsByName(self):
+        pr = ParsingResult('testName', '12', None)
+        pr2 = ParsingResult('testName2', '24', None)
+
+        self.parsingResult.addSubResult(pr)
+        self.parsingResult.addSubResult(pr2)
+
+        self.assertEqual('12', self.parsingResult.getSubResultByName('testName')[0].value)
+        self.assertEqual('24', self.parsingResult.getSubResultByName('testName2')[0].value)

@@ -32,15 +32,26 @@ class ParsingResult():
         self.subResults = None
 
     def addSubResult(self, subResult):
-        """ adds provided subResult to existing subResults list """
+        """ Adds provided subResult to existing subResults list """
         if self.subResults is None:
             self.subResults = list()
 
         self.subResults.append(subResult)
 
     def clearSubResults(self):
-        """ clears the subResults """
+        """ Clears the subResults """
         self.subResults = None
+
+    def getSubResultByName(self, name):
+        """ Returns sub results list by name of the sub-result related parsing node. """
+        results = None
+        if self.subResults is not None:
+            for res in self.subResults:
+                if res.name == name:
+                    if results is None:
+                        results = list()
+                    results.append(res)
+        return results
 
 class ParsingNode():
     """ This class represents the parsing node with it's name, start and end tags, subParsers """
@@ -76,20 +87,20 @@ class ParsingNode():
         return self.results
 
     def addParser(self, parser):
-        """ add sub parser """
+        """ Add sub parser """
         if self.parsers is None:
             self.parsers = list()
 
         self.parsers.append(parser)
 
 class CustomStringParserCore():
-    """ main parser class which holds the content we want to parse and the parsers we're going to use"""
+    """ Main parser class which holds the content we want to parse and the parsers we're going to use"""
     def __init__(self, content):
         self.content = content
         self.parsers = None
 
     def addParser(self, parser):
-        """ adds parsing node to existing parsing nodes list """
+        """ Adds parsing node to existing parsing nodes list """
         if self.parsers is None:
             self.parsers = list()
 
@@ -97,19 +108,22 @@ class CustomStringParserCore():
         self.parsers.append(parser)
 
     def parse(self):
-        """ iterates through all the parsers and calls parse method (which aggregates results)"""
+        """ Iterates through all the parsers and calls parse method (which aggregates results)"""
         if self.parsers is not None:
             for parser in self.parsers:
                 parser.parse(self.content)
 
 # For temporary purposes.
-def PrintResults(resultsList, sep=''):
-    """ just prints out tree of results with subresults, provide someParsingNode.results"""
+def PrintResults(resultsList, sep='', stripResultValue = True):
+    """ Just prints out tree of results with sub-results, provide someParsingNode.results"""
     sep += '\t'
     if resultsList is not None:
         for result in resultsList:
-            print result.name + ':\n' + sep + result.value
+            value = result.value
+            if stripResultValue is True:
+                value = value.strip()
+
+            print result.name + ':\n' + sep + value
             sr = result.subResults
             if sr is not None and len(sr) > 0:
                 PrintResults(sr, '\t')
-
