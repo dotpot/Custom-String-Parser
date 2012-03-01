@@ -23,6 +23,18 @@ class ParsingHelper():
 
         return None, -1, -1
 
+class Replacer():
+    """ This class represents replacer object which has two values: replaceWhat and replaceWith, replacer can be used
+    on ParsingNode initialization """
+    def __init__(self, replaceWhat, replaceWith):
+        self.replaceWhat = replaceWhat
+        self.replaceWith = replaceWith
+
+    def replace(self, content):
+        if content is not None:
+            content = content.replace(self.replaceWhat, self.replaceWith)
+        return content
+
 class ParsingResult():
     """ This class represents result of the parsingNode and also subResutls if exits """
     def __init__(self, name, value, parsingNode):
@@ -55,13 +67,14 @@ class ParsingResult():
 
 class ParsingNode():
     """ This class represents the parsing node with it's name, start and end tags, subParsers """
-    def __init__(self, name, startTag, endTag):
+    def __init__(self, name, startTag, endTag, replacer = None):
         self.name = name
         self.startTag = startTag
         self.endTag = endTag
 
         self.parsers = None
         self.results = list()
+        self.replacer = replacer
 
     def parse(self, content):
         """ Method parses the given content and extracts all possible values """
@@ -70,6 +83,10 @@ class ParsingNode():
             self.results = list()
 
             while parsingResult is not None:
+                if self.replacer is not None:
+                    # If there is a replacer available, replace resulting value.
+                    parsingResult = self.replacer.replace(parsingResult)
+
                 result = ParsingResult(self.name, parsingResult, self)
                 self.results.append(result)
 

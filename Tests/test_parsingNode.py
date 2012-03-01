@@ -1,5 +1,5 @@
 from unittest import TestCase
-from CustomStringParser import ParsingNode
+from CustomStringParser import ParsingNode, Replacer
 
 __author__ = 'Lukas Salkauskas'
 
@@ -30,3 +30,9 @@ class TestParsingNode(TestCase):
     def test_AddParser(self):
         self.parsingNode.addParser(None)
         self.assertEqual(1, len(self.parsingNode.parsers))
+
+    def test_InitWithReplacer(self):
+        self.parsingNode = ParsingNode('test', 'a', 'b', Replacer('c', 'd'))
+        sampleString = 'a c b'
+        self.parsingNode.parse(sampleString)
+        self.assertEqual(' d ', self.parsingNode.results[0].value)
