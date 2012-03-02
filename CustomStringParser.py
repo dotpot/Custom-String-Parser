@@ -1,3 +1,5 @@
+import types
+
 __author__ = 'Lukas Salkauskas'
 
 class ParsingHelper():
@@ -84,8 +86,12 @@ class ParsingNode():
 
             while parsingResult is not None:
                 if self.replacer is not None:
-                    # If there is a replacer available, replace resulting value.
-                    parsingResult = self.replacer.replace(parsingResult)
+                     # If there is a replacer available, replace resulting value (-s).
+                    if isinstance(self.replacer, (list, tuple)):
+                        for r in self.replacer:
+                            parsingResult = r.replace(parsingResult)
+                    else:
+                        parsingResult = self.replacer.replace(parsingResult)
 
                 result = ParsingResult(self.name, parsingResult, self)
                 self.results.append(result)

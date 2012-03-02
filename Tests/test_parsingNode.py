@@ -36,3 +36,9 @@ class TestParsingNode(TestCase):
         sampleString = 'a c b'
         self.parsingNode.parse(sampleString)
         self.assertEqual(' d ', self.parsingNode.results[0].value)
+
+    def test_InitWithListOfReplacers(self):
+        self.parsingNode = ParsingNode('test2', 'a', 'b', [Replacer('c', '-'), Replacer('d', '-')])
+        sampleString = 'a c d b'
+        self.parsingNode.parse(sampleString)
+        self.assertEqual(' - - ', self.parsingNode.results[0].value)
