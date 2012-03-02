@@ -88,6 +88,7 @@ class ParsingNode():
                 if self.replacer is not None:
                      # If there is a replacer available, replace resulting value (-s).
                     if isinstance(self.replacer, (list, tuple)):
+                        # if there is more than one replacer, process them.
                         for r in self.replacer:
                             parsingResult = r.replace(parsingResult)
                     else:
