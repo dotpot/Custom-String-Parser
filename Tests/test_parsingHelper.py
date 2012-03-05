@@ -9,3 +9,6 @@ class TestParsingHelper(TestCase):
 
         result = ParsingHelper.extractTagFromString(sampleTag, 'this is ', ' tag')
         self.assertEqual('the', result[0])
+
+#    def test_StripTags(self):
+#        self.

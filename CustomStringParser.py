@@ -25,6 +25,19 @@ class ParsingHelper():
 
         return None, -1, -1
 
+    @staticmethod
+    def StripTags(text):
+         finished = 0
+         while not finished:
+             finished = 1
+             start = text.find("<")
+             if start >= 0:
+                 stop = text[start:].find(">")
+                 if stop >= 0:
+                     text = text[:start] + text[start+stop+1:]
+                     finished = 0
+         return text
+
 class Replacer():
     """ This class represents replacer object which has two values: replaceWhat and replaceWith, replacer can be used
     on ParsingNode initialization """
