@@ -25,18 +25,52 @@ class ParsingHelper():
 
         return None, -1, -1
 
+#    @staticmethod
+#    def extractTagFromStringTillEndCount(stringValue, startTag, endTag, endTagCount):
+#        """
+#        extracts from start tag till end tag hits particular count.
+#        """
+#        count = 0
+#        result = ''
+#        data, st, en = ParsingHelper().extractTagFromString(stringValue, startTag, endTag)
+#        while count < endTagCount and data is not None and st != -1 and en != -1:
+#            result += data
+#            stringValue = stringValue[st:]
+#            data, st, en = ParsingHelper().extractTagFromString(stringValue, startTag, endTag)
+#            count += 1
+#
+#        return result
+#
+#    @staticmethod
+#    def extractTagFromStringTillStartCount(stringValue, startTag, endTag, startTagCount):
+#        """
+#        extraction started when start tag hits particular count.
+#        """
+#        count = 0
+#        result = ''
+#        data, st, en = ParsingHelper().extractTagFromString(stringValue, startTag, endTag)
+#        while count < startTagCount and data is not None and st != -1 and en != -1:
+#            count += 1
+#            stringValue = stringValue[(st + 1):]
+#
+#        data, st, en = ParsingHelper().extractTagFromString(stringValue, startTag, endTag)
+#        return data
+
     @staticmethod
     def StripTags(text):
-         finished = 0
-         while not finished:
-             finished = 1
-             start = text.find("<")
-             if start >= 0:
-                 stop = text[start:].find(">")
-                 if stop >= 0:
-                     text = text[:start] + text[start+stop+1:]
-                     finished = 0
-         return text
+        """
+        removes <> tags from text
+        """
+        finished = 0
+        while not finished:
+            finished = 1
+            start = text.find("<")
+            if start >= 0:
+                stop = text[start:].find(">")
+                if stop >= 0:
+                    text = text[:start] + text[start + stop + 1:]
+                    finished = 0
+        return text
 
 class Replacer():
     """ This class represents replacer object which has two values: replaceWhat and replaceWith, replacer can be used
