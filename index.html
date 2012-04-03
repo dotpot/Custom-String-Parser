@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Custom-string-parser by dotpot</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Custom-string-parser</h1>
+        <p>Custom string data parser written in python</p>
+        <p class="view"><a href="https://github.com/dotpot/Custom-String-Parser">View the Project on GitHub <small>dotpot/Custom-String-Parser</small></a></p>
+        <ul>
+          <li><a href="https://github.com/dotpot/Custom-String-Parser/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/dotpot/Custom-String-Parser/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/dotpot/Custom-String-Parser">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Custom String Parser</h1>
+
+<p>Use this component if you need to parse any information from any string value which has some <a href="http://en.wikipedia.org/wiki/Syntax_(logic)">syntax logics.</a></p>
+
+<blockquote><p>The easiest way to parse data from string in python.</p></blockquote>
+
+<h2>Overview</h2>
+
+<p><strong>CustomStringParser</strong>, the missing simple string parser for <em>python developers</em>.</p>
+
+<h3>Usage</h3>
+
+<h4>Parsing HTML</h4>
+
+<p><strong>Note: for html based parsing you should consider using <a href="http://www.w3schools.com/xpath/">xpath</a>
+</strong></p>
+
+<p>Imagine you have this kind of content in your <code>string_data</code> with this content:</p>
+
+<pre><code>&lt;div class="section-item"&gt;
+    &lt;div class="section-title"&gt;
+        title1
+    &lt;/div&gt; &lt;!-- end section-title --&gt;
+    &lt;div class="section-comments"&gt;
+        15
+    &lt;/div&gt; &lt;!-- end section-comments --&gt;
+&lt;/div&gt; &lt;!--end section-item--&gt;
+&lt;div class="section-item"&gt;
+    &lt;div class="section-title"&gt;
+        title2
+    &lt;/div&gt; &lt;!-- end section-title --&gt;
+    &lt;div class="section-comments"&gt;
+        16
+    &lt;/div&gt; &lt;!-- end section-comments --&gt;
+&lt;/div&gt; &lt;!--end section-item--&gt;
+&lt;div class="section-item"&gt;
+    &lt;div class="section-title"&gt;
+            title3
+    &lt;/div&gt; &lt;!-- end section-title --&gt;
+    &lt;div class="section-comments"&gt;
+        17
+    &lt;/div&gt; &lt;!-- end section-comments --&gt;
+&lt;/div&gt; &lt;!--end section-item--&gt;
+</code></pre>
+
+<p>We need to parse these items:</p>
+
+<ul>
+<li>title</li>
+<li>comments count</li>
+</ul><p>Code to parse this looks like this:</p>
+
+<pre><code>parser = CustomStringParserCore(string_data)
+itemParser = ParsingNode('item', '&lt;div class="section-item"&gt;', '&lt;/div&gt; &lt;!--end section-item--&gt;')
+
+titleParser = ParsingNode('title', '&lt;div class="section-title"&gt;', '&lt;/div&gt; &lt;!-- end section title --&gt;')
+commentsParser = ParsingNode('comments', '&lt;div class="section-comments"&gt;', '&lt;/div&gt; &lt;!-- end section-comments --&gt;')
+# note: our item result will have title and comments inside of it, so we can do this:
+itemParser.addParser(titleParser)
+itemParser.addParser(commentsParser)
+
+# add main parser to the parsing core
+parser.addParser(itemParser)
+
+# call the parse
+parser.parse()
+
+&lt;..&gt;
+</code></pre>
+
+<p><strong>output (PrintResults(itemParser.results)):</strong></p>
+
+<p><em>item</em>:</p>
+
+<pre><code>&lt;div class="section-title"&gt;
+        title1
+    &lt;/div&gt; &lt;!-- end section-title --&gt;
+    &lt;div class="section-comments"&gt;
+        15
+    &lt;/div&gt; &lt;!-- end section-comments --&gt;
+</code></pre>
+
+<p><em>title</em>:</p>
+
+<pre><code>title1
+</code></pre>
+
+<p><em>comments</em>:</p>
+
+<pre><code>15
+</code></pre>
+
+<p><em>item</em>:</p>
+
+<pre><code>&lt;div class="section-title"&gt;
+        title2
+    &lt;/div&gt; &lt;!-- end section-title --&gt;
+    &lt;div class="section-comments"&gt;
+        16
+    &lt;/div&gt; &lt;!-- end section-comments --&gt;
+</code></pre>
+
+<p><em>title</em>:</p>
+
+<pre><code>title2
+</code></pre>
+
+<p><em>comments</em>:</p>
+
+<pre><code>16
+</code></pre>
+
+<p><em>item</em>:</p>
+
+<pre><code>&lt;div class="section-title"&gt;
+            title3
+    &lt;/div&gt; &lt;!-- end section-title --&gt;
+    &lt;div class="section-comments"&gt;
+        17
+    &lt;/div&gt; &lt;!-- end section-comments --&gt;
+</code></pre>
+
+<p><em>title</em>:</p>
+
+<pre><code>title3
+</code></pre>
+
+<p><em>comments</em>:</p>
+
+<pre><code>17
+</code></pre>
+
+<h4>This is very generic, so you can parse practically any structure.</h4>
+
+<h3>Unit tests</h3>
+
+<p>This library suppose to be fully unit tested. So if you want to participate keep that in mind.</p>
+
+<h3>Feature ideas ( not yet implemented )</h3>
+
+<ul>
+<li>Regex based parsers possibility.</li>
+<li>Grouped regex based parsers possibility.</li>
+<li>XPath based parsers possibility.</li>
+<li>Filtering out results by parser name.</li>
+</ul><h3> Please feel free to improve it if you like :) </h3>
+
+<p><img src="http://img193.imageshack.us/img193/5605/tumblrlznr805hcb1r3zat8.png"></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/dotpot">dotpot</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
