@@ -25,37 +25,6 @@ class ParsingHelper():
 
         return None, -1, -1
 
-#    @staticmethod
-#    def extractTagFromStringTillEndCount(stringValue, startTag, endTag, endTagCount):
-#        """
-#        extracts from start tag till end tag hits particular count.
-#        """
-#        count = 0
-#        result = ''
-#        data, st, en = ParsingHelper().extractTagFromString(stringValue, startTag, endTag)
-#        while count < endTagCount and data is not None and st != -1 and en != -1:
-#            result += data
-#            stringValue = stringValue[st:]
-#            data, st, en = ParsingHelper().extractTagFromString(stringValue, startTag, endTag)
-#            count += 1
-#
-#        return result
-#
-#    @staticmethod
-#    def extractTagFromStringTillStartCount(stringValue, startTag, endTag, startTagCount):
-#        """
-#        extraction started when start tag hits particular count.
-#        """
-#        count = 0
-#        result = ''
-#        data, st, en = ParsingHelper().extractTagFromString(stringValue, startTag, endTag)
-#        while count < startTagCount and data is not None and st != -1 and en != -1:
-#            count += 1
-#            stringValue = stringValue[(st + 1):]
-#
-#        data, st, en = ParsingHelper().extractTagFromString(stringValue, startTag, endTag)
-#        return data
-
     @staticmethod
     def StripTags(text):
         """
@@ -95,7 +64,7 @@ class ParsingResult():
     def addSubResult(self, subResult):
         """ Adds provided subResult to existing subResults list """
         if self.subResults is None:
-            self.subResults = list()
+            self.subResults = []
 
         self.subResults.append(subResult)
 
@@ -110,7 +79,7 @@ class ParsingResult():
             for res in self.subResults:
                 if res.name == name:
                     if results is None:
-                        results = list()
+                        results = []
                     results.append(res)
         return results
 
@@ -122,14 +91,14 @@ class ParsingNode():
         self.endTag = endTag
 
         self.parsers = None
-        self.results = list()
+        self.results = []
         self.replacer = replacer
 
     def parse(self, content):
         """ Method parses the given content and extracts all possible values """
         if content is not None:
             parsingResult, stIndex, enIndex = ParsingHelper.extractTagFromString(content, self.startTag, self.endTag)
-            self.results = list()
+            self.results = []
 
             while parsingResult is not None:
                 if self.replacer is not None:
@@ -160,7 +129,7 @@ class ParsingNode():
     def addParser(self, parser):
         """ Add sub parser """
         if self.parsers is None:
-            self.parsers = list()
+            self.parsers = []
 
         self.parsers.append(parser)
 
@@ -173,7 +142,7 @@ class CustomStringParserCore():
     def addParser(self, parser):
         """ Adds parsing node to existing parsing nodes list """
         if self.parsers is None:
-            self.parsers = list()
+            self.parsers = []
 
         # ToDo: Check if parser with same name exists or not ( maybe )
         self.parsers.append(parser)
