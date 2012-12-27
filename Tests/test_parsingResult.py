@@ -10,44 +10,34 @@ class TestParsingResult(TestCase):
     def tearDown(self):
         self.parsingResult = None
 
-    def test_GetValue(self):
+    def test_value(self):
         self.assertEquals('testValue', self.parsingResult.value)
 
-    def test_GetName(self):
+    def test_name(self):
         self.assertEquals('testName', self.parsingResult.name)
 
-    def test_GetParsingNode(self):
-        self.assertEquals(None, self.parsingResult.parsingNode)
+    def test_parsing_node(self):
+        self.assertEquals(None, self.parsingResult.parsing_node)
 
-    def test_AddSubResult(self):
-        self.parsingResult.addSubResult(None)
-        self.assertEquals(None, self.parsingResult.subResults[0])
+    def test_add_sub_result(self):
+        self.parsingResult.add_sub_result(None)
+        self.assertEquals(None, self.parsingResult.sub_results[0])
 
-    def test_GetSubResults(self):
-        self.parsingResult.addSubResult(None)
-        self.parsingResult.addSubResult(None)
+    def test_sub_results(self):
+        self.parsingResult.add_sub_result(None)
+        self.parsingResult.add_sub_result(None)
 
-        sr = self.parsingResult.subResults
+        sr = self.parsingResult.sub_results
         self.assertEquals(2, len(sr))
 
-    def test_ClearSubResults(self):
-        self.parsingResult.addSubResult(None)
-        self.parsingResult.addSubResult(None)
+    def test_clear_sub_results(self):
+        self.parsingResult.add_sub_result(None)
+        self.parsingResult.add_sub_result(None)
 
-        sr = self.parsingResult.subResults
+        sr = self.parsingResult.sub_results
         self.assertEquals(2, len(sr))
 
-        self.parsingResult.clearSubResults()
+        self.parsingResult.clear_sub_results()
 
-        sr = self.parsingResult.subResults
+        sr = self.parsingResult.sub_results
         self.assertIsNone(sr, 'should be None')
-
-    def test_GetSubResultsByName(self):
-        pr = ParsingResult('testName', '12', None)
-        pr2 = ParsingResult('testName2', '24', None)
-
-        self.parsingResult.addSubResult(pr)
-        self.parsingResult.addSubResult(pr2)
-
-        self.assertEqual('12', self.parsingResult.getSubResultByName('testName')[0].value)
-        self.assertEqual('24', self.parsingResult.getSubResultByName('testName2')[0].value)

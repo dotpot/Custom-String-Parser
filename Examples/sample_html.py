@@ -1,4 +1,4 @@
-from CustomStringParser import PrintResults, ParsingNode, CustomStringParserCore
+import print_results, ParsingNode, CustomStringParserCore
 
 __author__ = 'Lukas Salkauskas'
 
@@ -36,27 +36,15 @@ def test():
     titleParser = ParsingNode('title', '<div class="section-title">', '</div> <!-- end section-title -->')
     commentsParser = ParsingNode('comments', '<div class="section-comments">', '</div> <!-- end section-comments -->')
     # note: our item result will have title and comments inside of it, so we can do this:
-    itemParser.addParser(titleParser)
-    itemParser.addParser(commentsParser)
+    itemParser.add_parser(titleParser)
+    itemParser.add_parser(commentsParser)
 
-    parser.addParser(itemParser)
+    parser.add_parser(itemParser)
 
     # call the parse
     parser.parse()
 
-    # Uncomment if you just want to print whole tree of the results ( strip value - default = True )
-    #PrintResults(itemParser.results)
-
-    if itemParser.results is not None:
-        for res in itemParser.results:
-            subTitle = res.getSubResultByName('title')
-            if subTitle is not None:
-                for st in subTitle:
-                    print st.value.strip()
-            subComments = res.getSubResultByName('comments')
-            if subComments is not None:
-                for sc in subComments:
-                    print sc.value.strip()
+    print_results(itemParser.results)
 
 if __name__ == '__main__':
     test()

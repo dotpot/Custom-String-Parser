@@ -1,6 +1,6 @@
 <h1>Custom String Parser</h1>
 
-<p>Use this component if you need to parse any information from any string value which has some <a href="http://en.wikipedia.org/wiki/Syntax_(logic)">syntax logics.</a></p>
+<p>You can use this component if you need to parse any information from any string value which has some <a href="http://en.wikipedia.org/wiki/Syntax_(logic)">syntax logics.</a></p>
 
 <blockquote><p>The easiest way to parse data from string in python.</p></blockquote>
 
@@ -54,16 +54,16 @@
 <p>Code to parse this looks like this:</p>
 
 <pre><code>parser = CustomStringParserCore(string_data)
-itemParser = ParsingNode('item', '&lt;div class="section-item"&gt;', '&lt;/div&gt; &lt;!--end section-item--&gt;')
+item_parser = ParsingNode('item', '&lt;div class="section-item"&gt;', '&lt;/div&gt; &lt;!--end section-item--&gt;')
 
-titleParser = ParsingNode('title', '&lt;div class="section-title"&gt;', '&lt;/div&gt; &lt;!-- end section title --&gt;')
-commentsParser = ParsingNode('comments', '&lt;div class="section-comments"&gt;', '&lt;/div&gt; &lt;!-- end section-comments --&gt;')
+title_parser = ParsingNode('title', '&lt;div class="section-title"&gt;', '&lt;/div&gt; &lt;!-- end section title --&gt;')
+comments_parser = ParsingNode('comments', '&lt;div class="section-comments"&gt;', '&lt;/div&gt; &lt;!-- end section-comments --&gt;')
 # note: our item result will have title and comments inside of it, so we can do this:
-itemParser.addParser(titleParser)
-itemParser.addParser(commentsParser)
+item_parser.add_parser(title_parser)
+item_parser.add_parser(comments_parser)
 
 # add main parser to the parsing core
-parser.addParser(itemParser)
+parser.add_parser(item_parser)
 
 # call the parse
 parser.parse()
@@ -71,7 +71,7 @@ parser.parse()
 &lt;..&gt;
 </code></pre>
 
-<p><strong>output (PrintResults(itemParser.results)):</strong></p>
+<p><strong>output (print_results(item_parser.results)):</strong></p>
 
 <p><em>item</em>:</p>
 
@@ -143,7 +143,3 @@ This library suppose to be fully unit tested. So if you want to participate keep
 * Grouped regex based parsers possibility.
 * XPath based parsers possibility.
 * Filtering out results by parser name.
-
-<h3> Please feel free to improve it if you like :) </h3>
-<img src="http://img193.imageshack.us/img193/5605/tumblrlznr805hcb1r3zat8.png"/>
-

@@ -1,44 +1,32 @@
 from unittest import TestCase
-from CustomStringParser import ParsingNode, Replacer
+from CustomStringParser import ParsingNode
 
 __author__ = 'Lukas Salkauskas'
 
 class TestParsingNode(TestCase):
     def setUp(self):
-        self.parsingNode = ParsingNode('testNode', 'startTag', 'endTag')
+        self.parsingNode = ParsingNode('testNode', 'start_tag', 'end_tag')
 
     def tearDown(self):
         self.parsingNode = None
 
-    def test_GetStartTag(self):
-        self.assertEqual('startTag', self.parsingNode.startTag)
+    def test_start_tag(self):
+        self.assertEqual('start_tag', self.parsingNode.start_tag)
 
-    def test_GetEndTag(self):
-        self.assertEqual('endTag', self.parsingNode.endTag)
+    def test_end_tag(self):
+        self.assertEqual('end_tag', self.parsingNode.end_tag)
 
-    def test_GetName(self):
+    def test_name(self):
         self.assertEqual('testNode', self.parsingNode.name)
 
-    def test_Parse(self):
-        sampleString = 'blah startTag aaa endTag startTag bbb endTag, startTag 2 blah 2 endTag'
-        results = self.parsingNode.parse(sampleString)
+    def test_parse(self):
+        sample_value = 'blah start_tag aaa end_tag start_tag bbb end_tag, start_tag 2 blah 2 end_tag'
+        results = self.parsingNode.parse(sample_value)
         self.assertEqual(3, len(results))
         self.assertEqual(' aaa ', results[0].value)
         self.assertEqual(' bbb ', results[1].value)
         self.assertEqual(' 2 blah 2 ', results[2].value)
 
-    def test_AddParser(self):
-        self.parsingNode.addParser(None)
+    def test_add_parser(self):
+        self.parsingNode.add_parser(None)
         self.assertEqual(1, len(self.parsingNode.parsers))
-
-    def test_InitWithReplacer(self):
-        self.parsingNode = ParsingNode('test', 'a', 'b', Replacer('c', 'd'))
-        sampleString = 'a c b'
-        self.parsingNode.parse(sampleString)
-        self.assertEqual(' d ', self.parsingNode.results[0].value)
-
-    def test_InitWithListOfReplacers(self):
-        self.parsingNode = ParsingNode('test2', 'a', 'b', [Replacer('c', '-'), Replacer('d', '-')])
-        sampleString = 'a c d b'
-        self.parsingNode.parse(sampleString)
-        self.assertEqual(' - - ', self.parsingNode.results[0].value)

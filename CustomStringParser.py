@@ -1,169 +1,115 @@
-import types
-
-__author__ = 'Lukas Salkauskas'
+__author__ = 'dotpot'
 
 class ParsingHelper():
     @staticmethod
-    def extractTagFromString(stringValue, startTag, endTag):
+    def extract_tag(value, start_tag, end_tag):
         """
          Helper method will extract information between two tags.
          f.ex a string = "<a> hello lady <a>"
-                startTag = "hello"
-                endTag = "<a>"
+                start_tag = "hello"
+                end_tag = "<a>"
                 Result = "lady"
         """
-        startIndex = stringValue.find(startTag)
-        if startIndex != -1:
+        start_index = value.find(start_tag)
+        if start_index != -1:
             # move starting index to the end of the tag.
-            startIndex += len(startTag)
+            start_index += len(start_tag)
 
-            # endIndex will be calculated in the string, starting from startIndex
-            endIndex = stringValue.find(endTag, startIndex)
+            # endIndex will be calculated in the string, starting from start_index
+            endIndex = value.find(end_tag, start_index)
             if endIndex != -1:
                 # slice string and return a result.
-                return stringValue[startIndex:endIndex], startIndex, endIndex
+                return value[start_index:endIndex], start_index, endIndex
 
         return None, -1, -1
 
-    @staticmethod
-    def StripTags(text):
-        """
-        removes <> tags from text
-        """
-        finished = 0
-        while not finished:
-            finished = 1
-            start = text.find("<")
-            if start >= 0:
-                stop = text[start:].find(">")
-                if stop >= 0:
-                    text = text[:start] + text[start + stop + 1:]
-                    finished = 0
-        return text
-
-class Replacer():
-    """ This class represents replacer object which has two values: replaceWhat and replaceWith, replacer can be used
-    on ParsingNode initialization """
-    def __init__(self, replaceWhat, replaceWith):
-        self.replaceWhat = replaceWhat
-        self.replaceWith = replaceWith
-
-    def replace(self, content):
-        if content is not None:
-            content = content.replace(self.replaceWhat, self.replaceWith)
-        return content
-
 class ParsingResult():
-    """ This class represents result of the parsingNode and also subResutls if exits """
-    def __init__(self, name, value, parsingNode):
+    """ This class represents result of the parsing_node and also subResutls if exits """
+    def __init__(self, name, value, parsing_node):
         self.name = name
         self.value = value
-        self.parsingNode = parsingNode
-        self.subResults = None
+        self.parsing_node = parsing_node
+        self.sub_results = None
 
-    def addSubResult(self, subResult):
-        """ Adds provided subResult to existing subResults list """
-        if self.subResults is None:
-            self.subResults = []
+    def add_sub_result(self, sub_result):
+        """ adds provided sub_result to existing sub_results list """
+        if self.sub_results is None:
+            self.sub_results = list()
 
-        self.subResults.append(subResult)
+        self.sub_results.append(sub_result)
 
-    def clearSubResults(self):
-        """ Clears the subResults """
-        self.subResults = None
-
-    def getSubResultByName(self, name):
-        """ Returns sub results list by name of the sub-result related parsing node. """
-        results = None
-        if self.subResults is not None:
-            for res in self.subResults:
-                if res.name == name:
-                    if results is None:
-                        results = []
-                    results.append(res)
-        return results
+    def clear_sub_results(self):
+        """ clears the sub_results """
+        self.sub_results = None
 
 class ParsingNode():
     """ This class represents the parsing node with it's name, start and end tags, subParsers """
-    def __init__(self, name, startTag, endTag, replacer = None):
+    def __init__(self, name, start_tag, end_tag):
         self.name = name
-        self.startTag = startTag
-        self.endTag = endTag
+        self.start_tag = start_tag
+        self.end_tag = end_tag
 
         self.parsers = None
-        self.results = []
-        self.replacer = replacer
+        self.results = list()
 
     def parse(self, content):
         """ Method parses the given content and extracts all possible values """
         if content is not None:
-            parsingResult, stIndex, enIndex = ParsingHelper.extractTagFromString(content, self.startTag, self.endTag)
-            self.results = []
+            parsing_result, start_index, end_index = ParsingHelper.extract_tag(content, self.start_tag, self.end_tag)
+            self.results = list()
 
-            while parsingResult is not None:
-                if self.replacer is not None:
-                     # If there is a replacer available, replace resulting value (-s).
-                    if isinstance(self.replacer, (list, tuple)):
-                        # if there is more than one replacer, process them.
-                        for r in self.replacer:
-                            parsingResult = r.replace(parsingResult)
-                    else:
-                        parsingResult = self.replacer.replace(parsingResult)
-
-                result = ParsingResult(self.name, parsingResult, self)
+            while parsing_result is not None:
+                result = ParsingResult(self.name, parsing_result, self)
                 self.results.append(result)
 
                 # if there is sub parsers, parse them as well and add as sub result
                 if self.parsers is not None:
-                    for subParser in self.parsers:
-                        subResults = subParser.parse(parsingResult)
-                        if subResults is not None:
-                            for res in subResults:
-                                result.addSubResult(res)
+                    for sub_parser in self.parsers:
+                        sub_results = sub_parser.parse(parsing_result)
+                        if sub_results is not None:
+                            for res in sub_results:
+                                result.add_sub_result(res)
 
-                content = content[enIndex:]
-                parsingResult, stIndex, enIndex = ParsingHelper.extractTagFromString(content, self.startTag, self.endTag)
+                content = content[end_index:]
+                parsing_result, start_index, end_index = ParsingHelper.extract_tag(content, self.start_tag, self.end_tag)
 
         return self.results
 
-    def addParser(self, parser):
-        """ Add sub parser """
+    def add_parser(self, parser):
+        """ add sub parser """
         if self.parsers is None:
-            self.parsers = []
+            self.parsers = list()
 
         self.parsers.append(parser)
 
 class CustomStringParserCore():
-    """ Main parser class which holds the content we want to parse and the parsers we're going to use"""
+    """ main parser class which holds the content we want to parse and the parsers we're going to use"""
     def __init__(self, content):
         self.content = content
         self.parsers = None
 
-    def addParser(self, parser):
-        """ Adds parsing node to existing parsing nodes list """
+    def add_parser(self, parser):
+        """ adds parsing node to existing parsing nodes list """
         if self.parsers is None:
-            self.parsers = []
+            self.parsers = list()
 
         # ToDo: Check if parser with same name exists or not ( maybe )
         self.parsers.append(parser)
 
     def parse(self):
-        """ Iterates through all the parsers and calls parse method (which aggregates results)"""
+        """ iterates through all the parsers and calls parse method (which aggregates results)"""
         if self.parsers is not None:
             for parser in self.parsers:
                 parser.parse(self.content)
 
 # For temporary purposes.
-def PrintResults(resultsList, sep='', stripResultValue = True):
-    """ Just prints out tree of results with sub-results, provide someParsingNode.results"""
+def print_results(resultsList, sep=''):
+    """ just prints out tree of results with subresults, provide someParsingNode.results"""
     sep += '\t'
     if resultsList is not None:
         for result in resultsList:
-            value = result.value
-            if stripResultValue is True:
-                value = value.strip()
-
-            print result.name + ':\n' + sep + value
+            print result.name + ':\n' + sep + result.value
             sr = result.subResults
             if sr is not None and len(sr) > 0:
-                PrintResults(sr, '\t')
+                print_results(sr, '\t')
+
