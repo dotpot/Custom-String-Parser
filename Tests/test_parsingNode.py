@@ -1,5 +1,5 @@
 from unittest import TestCase
-from CustomStringParser import ParsingNode
+from custom_string_parser import ParsingNode
 
 __author__ = 'Lukas Salkauskas'
 

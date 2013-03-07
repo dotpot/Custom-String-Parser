@@ -1,5 +1,5 @@
 from unittest import TestCase
-from CustomStringParser import ParsingHelper
+from custom_string_parser import ParsingHelper
 
 __author__ = 'Lukas Salkauskas'
 

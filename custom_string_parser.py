@@ -23,6 +23,7 @@ class ParsingHelper():
 
         return None, -1, -1
 
+
 class ParsingResult():
     """ This class represents result of the parsing_node and also subResutls if exits """
     def __init__(self, name, value, parsing_node):
@@ -41,6 +42,7 @@ class ParsingResult():
     def clear_sub_results(self):
         """ clears the sub_results """
         self.sub_results = None
+
 
 class ParsingNode():
     """ This class represents the parsing node with it's name, start and end tags, subParsers """
@@ -82,6 +84,7 @@ class ParsingNode():
 
         self.parsers.append(parser)
 
+
 class CustomStringParserCore():
     """ main parser class which holds the content we want to parse and the parsers we're going to use"""
     def __init__(self, content):
@@ -101,6 +104,7 @@ class CustomStringParserCore():
         if self.parsers is not None:
             for parser in self.parsers:
                 parser.parse(self.content)
+
 
 # For temporary purposes.
 def print_results(resultsList, sep=''):
